@@ -7,6 +7,19 @@
 
 class CMy2DGraphicsView : public CView
 {
+//自定义变量,函数
+public:
+	int type;
+	CPoint P, Q;
+	
+
+public:
+	void BresenhamLine(CDC *pDC, CPoint P, CPoint Q, COLORREF color1, COLORREF color2);
+	void BresenhamEllipse(CDC *pDC, CPoint P, CPoint Q, COLORREF color);
+	void EllipsePoint(CPoint point, CDC *pDC, COLORREF color);
+
+
+
 protected: // 仅从序列化创建
 	CMy2DGraphicsView() noexcept;
 	DECLARE_DYNCREATE(CMy2DGraphicsView)
@@ -43,6 +56,13 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnLine();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	
+	afx_msg void OnEllipse();
+	
 };
 
 #ifndef _DEBUG  // 2DGraphicsView.cpp 中的调试版本
