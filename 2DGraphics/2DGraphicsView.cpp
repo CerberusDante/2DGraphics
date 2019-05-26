@@ -32,6 +32,7 @@ BEGIN_MESSAGE_MAP(CMy2DGraphicsView, CView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_COMMAND(ID_ELLIPSE, &CMy2DGraphicsView::OnEllipse)
+	ON_COMMAND(ID_ANTILINE, &CMy2DGraphicsView::OnAntiline)
 END_MESSAGE_MAP()
 
 // CMy2DGraphicsView 构造/析构
@@ -177,6 +178,9 @@ void CMy2DGraphicsView::OnLButtonUp(UINT nFlags, CPoint point)
 			break;
 		case 2:
 			BresenhamEllipse(pDC, P, Q, color3);
+			break;
+		case 3:
+			AntiLine(pDC, P, Q);
 			break;
 		}
 	}
@@ -349,3 +353,103 @@ void CMy2DGraphicsView::EllipsePoint(CPoint point, CDC *pDC, COLORREF color)
 }
 
 
+void CMy2DGraphicsView::OnAntiline()
+{
+	// TODO: 在此添加命令处理程序代码
+	type = 3;
+}
+
+
+void CMy2DGraphicsView::AntiLine(CDC *pDC, CPoint P, CPoint Q)
+{
+	// TODO: 在此处添加实现代码.
+	CPoint p, t;
+	COLORREF color;
+	color = RGB(255, 0, 0);
+	if (fabs(P.x - Q.x) < 1e-6)//���ƴ���
+	{
+		if (P.y > Q.y)//��������,ʹ����ʼ������յ�
+		{
+			t = P; P = Q; Q = t;
+		}
+		for (p = P; p.y < P.y; p.y++)
+			pDC->SetPixelV(p, color);
+	}
+	else
+	{
+		double k, e;
+		k = double(Q.y - P.y) / (Q.x - P.x);
+		if (k > 1.0)                      //����k��1
+		{
+			if (P.y > Q.y)
+			{
+				t = P; P = Q; Q = t;
+			}
+			for (p = P, e = 1 / k; p.y < Q.y; p.y++)
+			{
+				pDC->SetPixelV(p, RGB(e * 255, e * 255, e * 255));
+				pDC->SetPixelV(p.x + 1, p.y, RGB((1.0 - e) * 255, (1.0 - e) * 255, (1.0 - e) * 255));
+				e = e + 1 / k;
+				if (e >= 1.0)
+				{
+					p.x++;
+					e--;
+				}
+			}
+		}
+		if (0.0 <= k && k <= 1.0)//����0��k��1
+		{
+			if (P.x > Q.x)
+			{
+				t = P; P = Q; Q = t;
+			}
+			for (p = P, e = k; p.x < Q.x; p.x++)
+			{
+				pDC->SetPixelV(p, RGB(e * 255, e * 255, e * 255));
+				pDC->SetPixelV(p.x, p.y + 1, RGB((1.0 - e) * 255, (1.0 - e) * 255, (1.0 - e) * 255));
+				e = e + k;
+				if (e >= 1.0)
+				{
+					p.y++;
+					e--;
+				}
+			}
+		}
+		if (k >= -1.0 && k < 0.0)//����-1��k��0
+		{
+			if (P.x > Q.x)
+			{
+				t = P; P = Q; Q = t;
+			}
+			for (p = P, e = -k; p.x < Q.x; p.x++)
+			{
+				pDC->SetPixelV(p, RGB(e * 255, e * 255, e * 255));
+				pDC->SetPixelV(p.x, p.y - 1, RGB((1.0 - e) * 255, (1.0 - e) * 255, (1.0 - e) * 255));
+				e = e - k;
+				if (e >= 1.0)
+				{
+					p.y--;
+					e--;
+				}
+			}
+		}
+		if (k < -1.0)//����k��-1 
+		{
+			if (P.y < Q.y)
+			{
+				t = P; P = Q; Q = t;
+			}
+			for (p = P, e = -1 / k; p.y > Q.y; p.y--)
+			{
+				pDC->SetPixelV(p, RGB(e * 255, e * 255, e * 255));
+				pDC->SetPixelV(p.x + 1, p.y, RGB((1.0 - e) * 255, (1.0 - e) * 255, (1.0 - e) * 255));
+				e = e - 1 / k;
+				if (e >= 1.0)
+				{
+					p.x++;
+					e--;
+				}
+			}
+		}
+	}
+}

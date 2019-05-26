@@ -17,7 +17,7 @@ public:
 	void BresenhamLine(CDC *pDC, CPoint P, CPoint Q, COLORREF color1, COLORREF color2);
 	void BresenhamEllipse(CDC *pDC, CPoint P, CPoint Q, COLORREF color);
 	void EllipsePoint(CPoint point, CDC *pDC, COLORREF color);
-
+	void AntiLine(CDC *pDC, CPoint P, CPoint Q);
 
 
 protected: // 仅从序列化创建
@@ -63,6 +63,8 @@ public:
 	
 	afx_msg void OnEllipse();
 	
+	afx_msg void OnAntiline();
+
 };
 
 #ifndef _DEBUG  // 2DGraphicsView.cpp 中的调试版本
