@@ -186,6 +186,8 @@
     <ClInclude Include="2DGraphics.h" />
     <ClInclude Include="2DGraphicsDoc.h" />
     <ClInclude Include="2DGraphicsView.h" />
+    <ClInclude Include="CAEdgeTable.h" />
+    <ClInclude Include="CBucket.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="MainFrm.h" />
@@ -200,6 +202,8 @@
     <ClCompile Include="2DGraphics.cpp" />
     <ClCompile Include="2DGraphicsDoc.cpp" />
     <ClCompile Include="2DGraphicsView.cpp" />
+    <ClCompile Include="CAEdgeTable.cpp" />
+    <ClCompile Include="CBucket.cpp" />
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />

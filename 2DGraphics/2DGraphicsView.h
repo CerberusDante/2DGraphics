@@ -2,7 +2,11 @@
 // 2DGraphicsView.h: CMy2DGraphicsView 类的接口
 //
 
+#include "CBucket.h"
+#include "CAEdgeTable.h"
+
 #pragma once
+
 
 
 class CMy2DGraphicsView : public CView
@@ -10,15 +14,26 @@ class CMy2DGraphicsView : public CView
 //自定义变量,函数
 public:
 	int type;
+	int PolyCount;
+	int ymin, ymax;
+
 	CPoint P, Q;
-	
+	CPoint PointList[100];
+	CBucket Bucket[601];
+	CAEdgeTable *AETHead;
 
 public:
 	void BresenhamLine(CDC *pDC, CPoint P, CPoint Q, COLORREF color1, COLORREF color2);
 	void BresenhamEllipse(CDC *pDC, CPoint P, CPoint Q, COLORREF color);
 	void EllipsePoint(CPoint point, CDC *pDC, COLORREF color);
 	void AntiLine(CDC *pDC, CPoint P, CPoint Q);
-
+	void EdgeFillPoly(CDC *pDC, CPoint *P, COLORREF color);
+	void CreateBucket(CPoint *P);
+	
+	void fillcolor(int y);
+	void AddEdge(CAEdgeTable edge);
+	void SortEdge();
+	void UpdateEdge(int y);
 
 protected: // 仅从序列化创建
 	CMy2DGraphicsView() noexcept;
@@ -65,6 +80,12 @@ public:
 	
 	afx_msg void OnAntiline();
 
+	afx_msg void OnEdgefillpoly();
+	
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	
+	afx_msg void OnFileNew();
 };
 
 #ifndef _DEBUG  // 2DGraphicsView.cpp 中的调试版本

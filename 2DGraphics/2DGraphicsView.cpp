@@ -15,7 +15,10 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
+#define Round(d) int(d+0.5)
+#define red RGB(255,0,0)
+#define green RGB(0,255,0)
+#define blue RGB(0,0,255)
 
 // CMy2DGraphicsView
 
@@ -33,6 +36,10 @@ BEGIN_MESSAGE_MAP(CMy2DGraphicsView, CView)
 	ON_WM_LBUTTONUP()
 	ON_COMMAND(ID_ELLIPSE, &CMy2DGraphicsView::OnEllipse)
 	ON_COMMAND(ID_ANTILINE, &CMy2DGraphicsView::OnAntiline)
+	ON_COMMAND(ID_EDGEFILLPOLY, &CMy2DGraphicsView::OnEdgefillpoly)
+	ON_WM_LBUTTONDBLCLK()
+	ON_WM_RBUTTONDOWN()
+	ON_COMMAND(ID_FILE_NEW, &CMy2DGraphicsView::OnFileNew)
 END_MESSAGE_MAP()
 
 // CMy2DGraphicsView 构造/析构
@@ -40,7 +47,8 @@ END_MESSAGE_MAP()
 CMy2DGraphicsView::CMy2DGraphicsView() noexcept
 {
 	// TODO: 在此处添加构造代码
-
+	type = 0;
+	PolyCount = 0;
 }
 
 CMy2DGraphicsView::~CMy2DGraphicsView()
@@ -96,8 +104,7 @@ void CMy2DGraphicsView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 
 void CMy2DGraphicsView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
-	ClientToScreen(&point);
-	OnContextMenu(this, point);
+	
 }
 
 void CMy2DGraphicsView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
@@ -144,7 +151,17 @@ void CMy2DGraphicsView::OnLButtonDown(UINT nFlags, CPoint point)
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	CDC *pDC = GetDC();
 	if (type != 0)
-		P = point;
+	{ 
+		if (type == 4) {
+
+			PointList[PolyCount] = point;
+			PolyCount++;
+			if (PolyCount > 1) 
+				BresenhamLine(pDC, PointList[PolyCount - 2], PointList[PolyCount - 1], RGB(0, 0, 0), RGB(0, 0, 0));
+		}
+
+		else P = point;
+	}
 	CView::OnLButtonDown(nFlags, point);
 }
 
@@ -155,34 +172,39 @@ void CMy2DGraphicsView::OnLButtonUp(UINT nFlags, CPoint point)
 	if (type != 0)
 	{
 		CDC *pDC = GetDC();
-		Q = point;
-		CRect rect;
-		GetClientRect(&rect);
-		pDC->SetMapMode(MM_ANISOTROPIC);
-		pDC->SetWindowExt(rect.Width(), rect.Height());
-		pDC->SetViewportExt(rect.Width(), -rect.Height());
-		pDC->SetViewportOrg(rect.Width() / 2, rect.Height() / 2);
-		rect.OffsetRect(-rect.Width() / 2, -rect.Height() / 2);
-
-		P.x = P.x - rect.Width() / 2;
-		P.y = rect.Height() / 2 - P.y;
-		Q.x = Q.x - rect.Width() / 2;
-		Q.y = rect.Height() / 2 - Q.y;
-		COLORREF color1 = RGB(255, 0, 0);
-		COLORREF color2 = RGB(0, 255, 0);
-		COLORREF color3 = RGB(0, 0, 0);
-		switch (type)
-		{
-		case 1:
-			BresenhamLine(pDC, P, Q, color1, color2);
-			break;
-		case 2:
-			BresenhamEllipse(pDC, P, Q, color3);
-			break;
-		case 3:
-			AntiLine(pDC, P, Q);
-			break;
+		
+		//CRect rect;
+		//GetClientRect(&rect);
+		//pDC->SetMapMode(MM_ANISOTROPIC);
+		//pDC->SetWindowExt(rect.Width(), rect.Height());
+		//pDC->SetViewportExt(rect.Width(), -rect.Height());
+		//pDC->SetViewportOrg(rect.Width() / 2, rect.Height() / 2);
+		//OffsetRect(-rect.Width() / 2, -rect.Height() / 2);
+		
+		if(type!=4)
+		{ 
+			Q = point;
+			//P.x = P.x - rect.Width() / 2;
+			//P.y = rect.Height() / 2 - P.y;
+			//Q.x = Q.x - rect.Width() / 2;
+			//Q.y = rect.Height() / 2 - Q.y;
+			COLORREF color1 = RGB(255, 0, 0);
+			COLORREF color2 = RGB(0, 255, 0);
+			COLORREF color3 = RGB(0, 0, 0);
+			switch (type)
+			{
+			case 1:
+				BresenhamLine(pDC, P, Q, color1, color2);
+				break;
+			case 2:
+				BresenhamEllipse(pDC, P, Q, color3);
+				break;
+			case 3:
+				AntiLine(pDC, P, Q);
+				break;
+			}
 		}
+		ReleaseDC(pDC);
 	}
 
 	CView::OnLButtonUp(nFlags, point);
@@ -194,7 +216,7 @@ void CMy2DGraphicsView::BresenhamLine(CDC *pDC, CPoint P, CPoint Q, COLORREF col
 	// TODO: 在此处添加实现代码.
 	CPoint p,t;
 	COLORREF color;
-	color = RGB(0, 0, 0);//使用黑色线绘制直线段
+	//color = RGB(0, 0, 0);//使用黑色线绘制直线段
 	//color = RGB(rand() % 255, rand() % 255, rand() % 255);//随机颜色绘制直线段，若在每个条件内插入这句，每个点为随机色
 	if(fabs(P.x-Q.x)<1e-6)//绘制垂涎
 	{
@@ -204,7 +226,7 @@ void CMy2DGraphicsView::BresenhamLine(CDC *pDC, CPoint P, CPoint Q, COLORREF col
 		}
 		for(p=P;p.y<P.y;p.y++)
 		{
-			//color = double(p.y-P.y)/(Q.y-P.y)*color1+ double(Q.y-p.y)/(Q.y-P.y)*color2;//使用渐变颜色线绘制直线段
+			color = double(p.y-P.y)/(Q.y-P.y)*color1+ double(Q.y-p.y)/(Q.y-P.y)*color2;//使用渐变颜色线绘制直线段
 			pDC->SetPixelV(p,color);
 		}
 	}
@@ -221,7 +243,7 @@ void CMy2DGraphicsView::BresenhamLine(CDC *pDC, CPoint P, CPoint Q, COLORREF col
 			d = 1 - 0.5*k;
 			for (p = P; p.y < Q.y; p.y++)
 			{
-				//color = double(p.y - P.y) / (Q.y - P.y)*color1 + double(Q.y - p.y) / (Q.y - P.y)*color2;
+				color = double(p.y - P.y) / (Q.y - P.y)*color1 + double(Q.y - p.y) / (Q.y - P.y)*color2;
 				pDC->SetPixelV(p, color);
 				if (d >= 0)
 				{
@@ -241,7 +263,7 @@ void CMy2DGraphicsView::BresenhamLine(CDC *pDC, CPoint P, CPoint Q, COLORREF col
 			d = 0.5 - k;
 			for (p = P; p.x < Q.x; p.x++)
 			{
-				//color = double(p.x - P.x) / (Q.x - P.x)*color1 + double(Q.x - p.x) / (Q.x - P.x)*color2;
+				color = double(p.x - P.x) / (Q.x - P.x)*color1 + double(Q.x - p.x) / (Q.x - P.x)*color2;
 				pDC->SetPixelV(p, color);
 				if (d < 0)
 				{
@@ -261,7 +283,7 @@ void CMy2DGraphicsView::BresenhamLine(CDC *pDC, CPoint P, CPoint Q, COLORREF col
 			d = -0.5 - k;
 			for (p = P; p.x < Q.x; p.x++)
 			{
-				//color = double(p.x - P.x) / (Q.x - P.x)*color1 + double(Q.x - p.x) / (Q.x - P.x)*color2;
+				color = double(p.x - P.x) / (Q.x - P.x)*color1 + double(Q.x - p.x) / (Q.x - P.x)*color2;
 				pDC->SetPixelV(p, color);
 				if (d > 0)
 				{
@@ -281,7 +303,7 @@ void CMy2DGraphicsView::BresenhamLine(CDC *pDC, CPoint P, CPoint Q, COLORREF col
 			d = -1 - 0.5*k;
 			for (p = P; p.y > Q.y; p.y--)
 			{
-				//color = double(p.y - P.y) / (Q.y - P.y)*color1 + double(Q.y - p.y) / (Q.y - P.y)*color2;
+				color = double(p.y - P.y) / (Q.y - P.y)*color1 + double(Q.y - p.y) / (Q.y - P.y)*color2;
 				pDC->SetPixelV(p, color);
 				if (d < 0)
 				{
@@ -365,10 +387,10 @@ void CMy2DGraphicsView::AntiLine(CDC *pDC, CPoint P, CPoint Q)
 	// TODO: 在此处添加实现代码.
 	CPoint p, t;
 	COLORREF color;
-	color = RGB(255, 0, 0);
-	if (fabs(P.x - Q.x) < 1e-6)//���ƴ���
+	color = RGB(0, 0, 0);
+	if (fabs(P.x - Q.x) < 1e-6)//绘制垂线
 	{
-		if (P.y > Q.y)//��������,ʹ����ʼ������յ�
+		if (P.y > Q.y)//交换顶点，是的起始点低于终点
 		{
 			t = P; P = Q; Q = t;
 		}
@@ -379,7 +401,7 @@ void CMy2DGraphicsView::AntiLine(CDC *pDC, CPoint P, CPoint Q)
 	{
 		double k, e;
 		k = double(Q.y - P.y) / (Q.x - P.x);
-		if (k > 1.0)                      //����k��1
+		if (k > 1.0)                      //绘制k>1
 		{
 			if (P.y > Q.y)
 			{
@@ -397,7 +419,7 @@ void CMy2DGraphicsView::AntiLine(CDC *pDC, CPoint P, CPoint Q)
 				}
 			}
 		}
-		if (0.0 <= k && k <= 1.0)//����0��k��1
+		if (0.0 <= k && k <= 1.0)//绘制0<k<1
 		{
 			if (P.x > Q.x)
 			{
@@ -415,7 +437,7 @@ void CMy2DGraphicsView::AntiLine(CDC *pDC, CPoint P, CPoint Q)
 				}
 			}
 		}
-		if (k >= -1.0 && k < 0.0)//����-1��k��0
+		if (k >= -1.0 && k < 0.0)//绘制-1=<k<=0
 		{
 			if (P.x > Q.x)
 			{
@@ -433,7 +455,7 @@ void CMy2DGraphicsView::AntiLine(CDC *pDC, CPoint P, CPoint Q)
 				}
 			}
 		}
-		if (k < -1.0)//����k��-1 
+		if (k < -1.0)//绘制k<-1 
 		{
 			if (P.y < Q.y)
 			{
@@ -452,4 +474,170 @@ void CMy2DGraphicsView::AntiLine(CDC *pDC, CPoint P, CPoint Q)
 			}
 		}
 	}
+}
+
+
+
+
+void CMy2DGraphicsView::OnEdgefillpoly()
+{
+	// TODO: 在此添加命令处理程序代码
+	type = 4;
+}
+
+
+
+void CMy2DGraphicsView::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	CDC *pDC = GetDC();
+	if (type == 4)
+	{
+		BresenhamLine(pDC, PointList[PolyCount - 1], PointList[0], RGB(0, 0, 0), RGB(0, 0, 0));
+	}
+
+	ReleaseDC(pDC);
+
+	CView::OnRButtonDown(nFlags, point);
+}
+
+void CMy2DGraphicsView::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	CDC *pDC = GetDC();
+	if (type == 4) {
+		EdgeFillPoly(pDC, PointList, red);
+		PolyCount = 0;
+		type = 0;
+	}
+	ReleaseDC(pDC);
+
+	CView::OnLButtonDblClk(nFlags, point);
+}
+
+void CMy2DGraphicsView::EdgeFillPoly(CDC *pDC, CPoint *P, COLORREF color)
+{
+	// TODO: 在此处添加实现代码.
+	PolyCount--;
+	PointList[PolyCount] = PointList[0];
+	CreateBucket(P);
+	CAEdgeTable *edge;
+	AETHead = new CAEdgeTable;
+	AETHead->next = NULL;
+
+	int y = ymin;
+	while (y < ymax)
+	{
+		edge = new CAEdgeTable;
+		edge = Bucket[y].p;
+		while (edge != NULL)
+		{
+			AddEdge(*edge);
+			edge = edge->next;
+		}
+		SortEdge();
+		fillcolor(y);
+		y++;
+		UpdateEdge(y);
+		edge = NULL;
+	}
+}
+
+
+void CMy2DGraphicsView::CreateBucket(CPoint *P)
+{
+	int y;
+	ymin = ymax = P[0].y;
+
+	CAEdgeTable *edge;
+	for (int i = 1; i < 601; i++)
+	{
+		Bucket[i].p = NULL;
+	}
+	for (int i = 0; i < PolyCount; i++)
+	{
+		edge = new CAEdgeTable;
+		if (P[i].y < P[i + 1].y)
+		{
+			y = P[i].y;
+			edge->x = P[i].x;
+			edge->ymax = P[i + 1].y;
+			edge->deltax = double(P[i + 1].x - P[i].x) / (P[i + 1].y - P[i].y);
+			edge->next = Bucket[y].p;
+			Bucket[y].p = edge;
+			if (P[i].y < ymin) ymin = P[i].y;
+			if (P[i + 1].y > ymax) ymax = P[i + 1].y;
+		}
+		if (P[i].y > P[i + 1].y)
+		{
+			y = P[i + 1].y;
+			edge->x = P[i + 1].x;
+			edge->ymax = P[i].y;
+			edge->deltax = double(P[i + 1].x - P[i].x) / (P[i + 1].y - P[i].y);
+			edge->next = Bucket[y].p;
+			Bucket[y].p = edge;
+			if (P[i + 1].y < ymin) ymin = P[i + 1].y;
+			if (P[i].y > ymax) ymax = P[i].y;
+		}
+		edge = NULL;
+	}
+}
+
+
+void CMy2DGraphicsView::AddEdge(CAEdgeTable edge)
+{
+	CAEdgeTable *p, *q, *s;
+	s = new CAEdgeTable;
+	*s = edge;
+	q = AETHead;
+	p = q->next;
+	while (p)
+	{
+		if ((s->x < p->x) || (s->x == p->x&&s->deltax < p->deltax))    p = NULL; //��������������pѡ��
+		else { q = p;  p = p->next; }
+	}
+	s->next = q->next; //�ѱ߲��뵽p�ṹǰ
+	q->next = s;
+}
+
+void CMy2DGraphicsView::fillcolor(int y)
+{
+	CDC *pDC = GetDC();
+	CAEdgeTable *temp = AETHead->next;
+	while (temp != NULL && temp->next != NULL)
+	{
+		BresenhamLine(pDC, CPoint(temp->x, y), CPoint(temp->next->x, y), red, red);
+		temp = temp->next->next;
+	}
+	temp = NULL;
+}
+
+void CMy2DGraphicsView::SortEdge()
+{
+
+}
+
+void CMy2DGraphicsView::UpdateEdge(int y)
+{
+	CAEdgeTable *temp = AETHead;
+	while (temp->next != NULL)
+	{
+		if (temp->next->ymax == y)
+			temp->next = temp->next->next;
+		else {
+			temp->next->x += temp->next->deltax;
+			temp = temp->next;
+		}
+	}
+	temp = NULL;
+}
+
+void CMy2DGraphicsView::OnFileNew()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (type == 4)
+		PolyCount = 0;
+	Invalidate();
 }
