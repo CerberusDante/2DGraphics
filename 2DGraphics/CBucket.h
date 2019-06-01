@@ -9,6 +9,6 @@ public:
 
 public:
 
-	CAEdgeTable *p;
+	CActiveEdgeTable *p;	//指向扫描线对应有效边的指针
 
 };

@@ -9,11 +9,11 @@ static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
-CAEdgeTable::CAEdgeTable()
+CActiveEdgeTable::CActiveEdgeTable()
 {
 }
 
 
-CAEdgeTable::~CAEdgeTable()
+CActiveEdgeTable::~CActiveEdgeTable()
 {
 }

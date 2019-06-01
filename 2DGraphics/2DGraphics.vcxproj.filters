@@ -57,6 +57,9 @@
     <ClInclude Include="CAEdgeTable.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PolyEdge.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2DGraphics.cpp">
@@ -93,6 +96,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CAEdgeTable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PolyEdge.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -175,6 +181,78 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\Toolbar256.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="E:\Program Files (x86)\Tecent\Files\1500575702\FileRecv\工具栏图标\icon2.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\toolbar1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon2.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon3.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon4.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon5.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon6.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon7.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon8.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon9.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon10.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon11.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon12.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon13.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon14.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon15.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon16.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon17.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon18.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon19.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon20.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon21.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon22.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

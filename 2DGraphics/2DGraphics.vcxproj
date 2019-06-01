@@ -192,6 +192,7 @@
     <ClInclude Include="FileView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OutputWnd.h" />
+    <ClInclude Include="PolyEdge.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
+    <ClCompile Include="PolyEdge.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -221,8 +223,10 @@
     <ResourceCompile Include="My2DGraphics.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="E:\Program Files (x86)\Tecent\Files\1500575702\FileRecv\工具栏图标\icon2.ico" />
     <Image Include="res\2DGraphics.ico" />
     <Image Include="res\2DGraphicsDoc.ico" />
+    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />
     <Image Include="res\class_view.ico" />
@@ -233,6 +237,27 @@
     <Image Include="res\fileview_hc.bmp" />
     <Image Include="res\file_view.ico" />
     <Image Include="res\file_view_hc.ico" />
+    <Image Include="res\icon10.ico" />
+    <Image Include="res\icon11.ico" />
+    <Image Include="res\icon12.ico" />
+    <Image Include="res\icon13.ico" />
+    <Image Include="res\icon14.ico" />
+    <Image Include="res\icon15.ico" />
+    <Image Include="res\icon16.ico" />
+    <Image Include="res\icon17.ico" />
+    <Image Include="res\icon18.ico" />
+    <Image Include="res\icon19.ico" />
+    <Image Include="res\icon2.ico" />
+    <Image Include="res\icon20.ico" />
+    <Image Include="res\icon21.ico" />
+    <Image Include="res\icon22.ico" />
+    <Image Include="res\icon3.ico" />
+    <Image Include="res\icon4.ico" />
+    <Image Include="res\icon5.ico" />
+    <Image Include="res\icon6.ico" />
+    <Image Include="res\icon7.ico" />
+    <Image Include="res\icon8.ico" />
+    <Image Include="res\icon9.ico" />
     <Image Include="res\menuimages.bmp" />
     <Image Include="res\menuimages_hc.bmp" />
     <Image Include="res\output_wnd.ico" />
@@ -244,6 +269,7 @@
     <Image Include="res\sort.bmp" />
     <Image Include="res\sort_hc.bmp" />
     <Image Include="res\Toolbar.bmp" />
+    <Image Include="res\toolbar1.bmp" />
     <Image Include="res\Toolbar256.bmp" />
     <Image Include="res\userimages.bmp" />
   </ItemGroup>

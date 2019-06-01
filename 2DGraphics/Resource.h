@@ -84,6 +84,28 @@
 #define IDS_FIND_TAB                    302
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
+#define IDI_ICON1                       319
+#define IDI_ICON2                       320
+#define IDI_ICON3                       321
+#define IDI_ICON4                       322
+#define IDI_ICON5                       323
+#define IDI_ICON6                       324
+#define IDI_ICON7                       325
+#define IDI_ICON8                       326
+#define IDI_ICON9                       327
+#define IDI_ICON10                      328
+#define IDI_ICON11                      329
+#define IDI_ICON12                      330
+#define IDI_ICON13                      331
+#define IDI_ICON14                      332
+#define IDI_ICON15                      333
+#define IDI_ICON16                      334
+#define IDI_ICON17                      335
+#define IDI_ICON18                      336
+#define IDI_ICON19                      337
+#define IDI_ICON20                      338
+#define IDI_ICON21                      339
+#define IDB_BITMAP1                     341
 #define ID_32771                        32771
 #define ID_LINE                         32772
 #define ID_32773                        32773
@@ -94,13 +116,38 @@
 #define ID_ANTILINE                     32778
 #define ID_32779                        32779
 #define ID_EDGEFILLPOLY                 32780
+#define ID_AETFILLPOLY                  32781
+#define ID_EDGEFILLPOLY2                32782
+#define ID_32790                        32790
+#define ID_SEEDFILLPOLY                 32791
+#define ID_BUTTON32793                  32793
+#define ID_BUTTON32794                  32794
+#define ID_CHOOSE_COLOR                 32795
+#define ID_BUTTON32798                  32798
+#define ID_LOADFIG                      32801
+#define ID_LEFT                         32802
+#define ID_RIGHT                        32803
+#define ID_UP                           32804
+#define ID_DOWN                         32805
+#define ID_INCREASE                     32806
+#define ID_DECREASE                     32807
+#define ID_XPOSITIVE                    32808
+#define ID_YNEGATIVE                    32810
+#define ID_REFLECTX                     32811
+#define ID_REFLICTO                     32812
+#define ID_ROTATE_CLOCK                 32813
+#define ID_ROTATE_ANTI_CLOCK            32814
+#define ID_RESET                        32815
+#define ID_XNEGATIVE                    32817
+#define ID_REFLECTY                     32819
+#define ID_YPOSITIVE                    32820
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        310
-#define _APS_NEXT_COMMAND_VALUE         32781
+#define _APS_NEXT_RESOURCE_VALUE        342
+#define _APS_NEXT_COMMAND_VALUE         32821
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

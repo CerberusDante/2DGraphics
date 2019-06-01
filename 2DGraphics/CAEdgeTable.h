@@ -1,14 +1,14 @@
 #pragma once
 
-class CAEdgeTable
+class CActiveEdgeTable	//有效边表数据结构
 {
 public:
-	double x;
+	double x;			
 	int ymax;
-	double deltax;
-	CAEdgeTable *next;
+	double deltax;			//x的变化量
+	CActiveEdgeTable *next;	//链表	
 public:
-	CAEdgeTable();
-	~CAEdgeTable();
+	CActiveEdgeTable();
+	~CActiveEdgeTable();
 };
 

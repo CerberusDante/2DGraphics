@@ -167,6 +167,9 @@ protected:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+//	afx_msg void OnEdgefillpoly2();
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 };
 
 CAboutDlg::CAboutDlg() noexcept : CDialogEx(IDD_ABOUTBOX)
@@ -179,6 +182,8 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+//	ON_COMMAND(ID_EDGEFILLPOLY2, &CAboutDlg::OnEdgefillpoly2)
+ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // 用于运行对话框的应用程序命令
@@ -214,3 +219,15 @@ void CMy2DGraphicsApp::SaveCustomState()
 
 
 
+
+void CAboutDlg::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	CRect rect;
+	GetClientRect(&rect);         //获得客户区矩形大小
+	CString str;
+	str.Format(_T("x=%d,y=%d"), point.x, point.y);
+	((CMainFrame *)GetParent())->SetMessageText(str);
+
+	CDialogEx::OnMouseMove(nFlags, point);
+}
